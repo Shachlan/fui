@@ -66,6 +66,9 @@ command :delete do |c|
         end
         File.delete(k.path) if options[:perform]
         impl_path = k.path.gsub(/\.h$/, '.m')
+        if (!File.exist?(impl_path))
+          impl_path = k.path.gsub(/\.h$/, '.mm')
+        end
         next unless File.exist?(impl_path)
         relative_path = Pathname.new(impl_path).relative_path_from(root).to_s
         if global_options[:verbose]
